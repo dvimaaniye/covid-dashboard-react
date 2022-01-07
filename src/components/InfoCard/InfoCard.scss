@@ -1,0 +1,16 @@
+.infocard {
+  //   background: #eff2f6;
+  width: fit-content;
+  padding: 1.5rem;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 16px -1px rgba(200, 200, 200, 0.5);
+  &__title {
+    font-weight: 300;
+    font-size: 1.125rem;
+  }
+  &__number {
+    font-size: 1.75rem;
+  }
+}
