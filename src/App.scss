@@ -33,12 +33,19 @@
         font-weight: 700;
         font-size: 1.5rem;
         padding: 1.25rem 2.5rem;
-        margin: 0 0.5rem 0.5rem;
+        margin: 0 0.5rem 3rem;
         width: fit-content;
         border-radius: 1rem;
         background-color: #18214d;
         color: #fff;
         box-shadow: 0 4px 16px -1px rgba(200, 200, 200, 0.5);
+        &::after {
+            content: attr(madeWith);
+            width: 100%;
+            height: 100%;
+            display: block;
+            bottom: 0;
+        }
     }
     &__worldwide {
         display: flex;
@@ -154,6 +161,23 @@
             }
             // &--right {
             // }
+        }
+    }
+    &__credits {
+        position: absolute;
+        top: 5rem;
+        margin-left: 0.5rem;
+        font-weight: 300;
+        opacity: 0.8;
+        & a {
+            display: inline-block;
+            text-decoration: none;
+            color: #18214d;
+            background-color: #fff;
+            font-weight: 700;
+            // font-style: italic;
+            transform: skewX(-15deg);
+            padding: 0 2px;
         }
     }
 }

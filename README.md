@@ -11,3 +11,9 @@ The assignment/project/website does the following things:
 ### API used: https://covid-19-apis.postman.com/
 
 ### Libraries used: Recharts (for plotting line graph)
+
+### Screenshots:
+
+![screenshot of info card](src/assets/images/ss-section1.png)
+
+![screenshot of countries report table](src/assets/images/ss-section3.png)

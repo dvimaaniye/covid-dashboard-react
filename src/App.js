@@ -103,6 +103,16 @@ function App() {
     return (
         <div className="app">
             <h1 className="app__titlebar">COVID-19 DASHBOARD</h1>
+            <p className="app__credits">
+                Made with ❤️ by{" "}
+                <a href="https://www.linkedin.com/in/gautamtiwaridev/">
+                    Gautam Tiwari
+                </a>
+                .{" "}
+                <a href="https://github.com/devGautamTiwari/covid-dashboard-react">
+                    Code is here.
+                </a>
+            </p>
             <div className="app__container">
                 <img
                     src={require("./assets/images/character-right.png")}
