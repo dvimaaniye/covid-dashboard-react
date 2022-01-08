@@ -1,42 +1,50 @@
 import React from "react";
-import MaterialTable from "material-table";
-import { forwardRef } from "react";
+import "./Table.scss";
 
-import ChevronLeft from "@material-ui/icons/ChevronLeft";
-import ChevronRight from "@material-ui/icons/ChevronRight";
-import FirstPage from "@material-ui/icons/FirstPage";
-import LastPage from "@material-ui/icons/LastPage";
-
-const tableIcons = {
-    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-    PreviousPage: forwardRef((props, ref) => (
-        <ChevronLeft {...props} ref={ref} />
-    )),
-};
 const Table = ({ data, columns }) => {
     return (
-        <>
-            <MaterialTable
-                icons={tableIcons}
-                title=""
-                data={data}
-                columns={columns}
-                // style={{ height: "580px", overflow: "auto" }}
-                options={{
-                    search: false,
-                    sorting: false,
-                    paging: true,
-                    toolbar: false,
-                    headerStyle: {
-                        fontWeight: 700,
-                        fontSize: "1.125rem",
-                    },
-                    draggable: false,
-                }}
-            />
-        </>
+        <div className="table__container">
+            <table className="table">
+                <tbody>
+                    <tr
+                        style={{
+                            position: "sticky",
+                            top: 0,
+                            backgroundColor: "#f5f5f5",
+                        }}
+                    >
+                        {columns.map((column) => (
+                            <th
+                                key={column.field}
+                                style={{
+                                    fontWeight: 700,
+                                    fontSize: "1.125rem",
+                                }}
+                            >
+                                {column.title}
+                            </th>
+                        ))}
+                    </tr>
+                    {data.map((obj) => (
+                        <tr key={obj.country}>
+                            {columns.map((col) => (
+                                <td key={col.field}>
+                                    {"render" in col
+                                        ? col.render(obj)
+                                        : obj[col.field]}
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+
+            {data.length === 0 && (
+                <div style={{ textAlign: "center", padding: "2rem" }}>
+                    No records to show.
+                </div>
+            )}
+        </div>
     );
 };
 

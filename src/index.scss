@@ -8,9 +8,17 @@
 
 html {
     min-height: 100%;
+    min-width: 100%;
 }
 body {
     height: 100%;
+    width: 100%;
+    background-image: linear-gradient(
+        60deg,
+        hsl(153, 100%, 95%),
+        hsl(228, 100%, 95%),
+        hsl(0, 87%, 95%)
+    );
     font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI",
         "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
         "Helvetica Neue", sans-serif;
@@ -24,5 +32,6 @@ body {
     box-shadow: 0 0 2px #555;
 }
 #root {
+    width: 100%;
     height: 100%;
 }

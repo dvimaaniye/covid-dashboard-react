@@ -6,55 +6,10 @@ import Graph from "./components/Graph/Graph";
 import Table from "./components/Table/Table";
 import { ReactComponent as Descending } from "./assets/icons/decreasing.svg";
 import { ReactComponent as Ascending } from "./assets/icons/increasing.svg";
-import SearchIcon from "@material-ui/icons/Search";
-import { graphDataFormatter } from "./utils";
+import { ReactComponent as SearchIcon } from "./assets/icons/search.svg";
+
+import { graphDataFormatter, ascending, descending, columns } from "./utils";
 import "./App.scss";
-
-const ascending = (a, b) => (a > b ? 1 : -1);
-const descending = (a, b) => (a > b ? -1 : 1);
-
-const columns = [
-    {
-        title: "Country",
-        field: "country",
-        width: "20%",
-        render: (rowData) => (
-            <div style={{ display: "flex", alignItems: "center" }}>
-                <img
-                    src={rowData.flag}
-                    alt={`${rowData.country}'s flag`}
-                    style={{
-                        width: "2rem",
-                        height: "2rem",
-                        borderRadius: "9999px",
-                        marginRight: "8px",
-                    }}
-                />
-                {rowData.country}
-            </div>
-        ),
-    },
-    {
-        title: "Active",
-        field: "active",
-        type: "numeric",
-    },
-    {
-        title: "Recovered",
-        field: "recovered",
-        type: "numeric",
-    },
-    {
-        title: "Deaths",
-        field: "deaths",
-        type: "numeric",
-    },
-    {
-        title: "Total",
-        field: "total",
-        type: "numeric",
-    },
-];
 
 function App() {
     const [globalStats, setGlobalStats] = useState([]);
@@ -113,7 +68,6 @@ function App() {
             .then((res) => res.json())
             .then((data) => {
                 const _graphData = graphDataFormatter(data);
-                console.log(_graphData);
                 setGraphData(_graphData);
             })
             .catch((err) => console.log(err));
@@ -271,7 +225,22 @@ function App() {
                                     id="sortBy"
                                     className="app__dropdown"
                                     value={sortBy}
-                                    onChange={(e) => setSortBy(e.target.value)}
+                                    onChange={(e) => {
+                                        setSortBy(e.target.value);
+                                        setTableData((currentData) =>
+                                            currentData.sort((a, b) =>
+                                                orderBy === "asc"
+                                                    ? ascending(
+                                                          a[e.target.value],
+                                                          b[e.target.value]
+                                                      )
+                                                    : descending(
+                                                          a[e.target.value],
+                                                          b[e.target.value]
+                                                      )
+                                            )
+                                        );
+                                    }}
                                 >
                                     <option value="country">Country</option>
                                     <option value="active">Active</option>

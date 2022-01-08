@@ -78,4 +78,53 @@ const graphDataFormatter = (data) => {
 //     return results;
 // };
 
-export { graphDataFormatter, NumFormatter };
+const ascending = (a, b) => (a > b ? 1 : -1);
+const descending = (a, b) => (a > b ? -1 : 1);
+
+const columns = [
+    {
+        title: "Country",
+        field: "country",
+        render: (rowData) => (
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                }}
+            >
+                <img
+                    src={rowData.flag}
+                    alt={`${rowData.country}'s flag`}
+                    style={{
+                        width: "2rem",
+                        height: "2rem",
+                        borderRadius: "9999px",
+                        marginRight: "8px",
+                    }}
+                />
+                {rowData.country}
+            </div>
+        ),
+    },
+    {
+        title: "Active",
+        field: "active",
+        type: "numeric",
+    },
+    {
+        title: "Recovered",
+        field: "recovered",
+        type: "numeric",
+    },
+    {
+        title: "Deaths",
+        field: "deaths",
+        type: "numeric",
+    },
+    {
+        title: "Total",
+        field: "total",
+        type: "numeric",
+    },
+];
+export { graphDataFormatter, NumFormatter, ascending, descending, columns };
