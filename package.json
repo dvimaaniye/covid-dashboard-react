@@ -1,42 +1,10 @@
-{
-  "name": "covid-dashboard-react",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.1",
-    "@testing-library/react": "^12.1.2",
-    "@testing-library/user-event": "^13.5.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "5.0.0",
-    "recharts": "^2.1.8",
-    "web-vitals": "^2.1.2"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "sass": "^1.46.0"
-  }
-}
+# Covid-19 Dashboard Using React
+### Check covid data: https://covid-dashboard-gautam.netlify.app/
+The assignment/project/website does the following things:
+1. Collects worldwide and country-wise data
+2. Plots a graph for worldwide data
+3. Displays a table for countries report.
+
+### API used: https://covid-19-apis.postman.com/
+### Libraries used: Recharts (for plotting line graph)
+
