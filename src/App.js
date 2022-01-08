@@ -120,7 +120,7 @@ function App() {
     }, []);
 
     useEffect(() => {
-        fetch("https://corona.lmao.ninja/v2/countries?sort=country")
+        fetch("https://corona.lmao.ninja/v2/countries?sort=active")
             .then((res) => res.json())
             .then((data) => {
                 setTableData(
@@ -150,163 +150,196 @@ function App() {
         <div className="app">
             <h1 className="app__titlebar">COVID-19 DASHBOARD</h1>
             <div className="app__container">
-                <section className="app__worldwide">
-                    <h2 className="app__title">WORLDWIDE STATISTICS</h2>
-                    {/* For today's global data https://corona.lmao.ninja/v2/all */}
-                    <div className="app__statcards">
-                        <InfoCard
-                            title="Total"
-                            number={globalStats?.cases || "N/A"}
+                <img
+                    src={require("./assets/images/character-right.png")}
+                    alt="character sitting with mask"
+                    className="app__character app__character--right"
+                />
+                <div className="app__main">
+                    <section className="app__worldwide">
+                        <h2 className="app__title">WORLDWIDE STATISTICS</h2>
+                        {/* For today's global data https://corona.lmao.ninja/v2/all */}
+                        <div className="app__statcards">
+                            <InfoCard
+                                title="Total"
+                                number={globalStats?.cases || "N/A"}
+                            />
+                            <div className="app__cardrow">
+                                <InfoCard
+                                    title="Recovered"
+                                    number={globalStats?.recovered || "N/A"}
+                                    bg="green"
+                                />
+                                <InfoCard
+                                    title="Active"
+                                    number={globalStats?.active || "N/A"}
+                                    bg="blue"
+                                />
+                                <InfoCard
+                                    title="Deaths"
+                                    number={globalStats?.deaths || "N/A"}
+                                    bg="red"
+                                />
+                            </div>
+                        </div>
+                        <StackedBar data={barData} sorted={false} />
+                    </section>
+                    <section className="app__statistics">
+                        <h2 className="app__title">Stats Graph</h2>
+                        <div className="app__checkboxes">
+                            <Checkbox
+                                name="total"
+                                checked={graphVisiblity.total}
+                                onChange={onCheckboxToggle}
+                            >
+                                Total cases
+                            </Checkbox>
+                            <Checkbox
+                                name="active"
+                                checked={graphVisiblity.active}
+                                onChange={onCheckboxToggle}
+                            >
+                                Active cases
+                            </Checkbox>
+                            <Checkbox
+                                name="recovered"
+                                checked={graphVisiblity.recovered}
+                                onChange={onCheckboxToggle}
+                            >
+                                Recovered cases
+                            </Checkbox>
+                            <Checkbox
+                                name="deaths"
+                                checked={graphVisiblity.deaths}
+                                onChange={onCheckboxToggle}
+                            >
+                                Death cases
+                            </Checkbox>
+                        </div>
+                        {/* For last 30 days global data https://corona.lmao.ninja/v2/historical/all*/}
+                        {/* For today's global data https://corona.lmao.ninja/v2/all */}
+                        <Graph
+                            data={graphData}
+                            fields={[
+                                [graphVisiblity.total ? "total" : "", "#888"],
+                                [
+                                    graphVisiblity.active ? "active" : "",
+                                    "#597bff",
+                                ],
+                                [
+                                    graphVisiblity.recovered ? "recovered" : "",
+                                    "#00bd77",
+                                ],
+                                [
+                                    graphVisiblity.deaths ? "deaths" : "",
+                                    "#ed2121",
+                                ],
+                            ]}
                         />
-                        <div className="app__cardrow">
-                            <InfoCard
-                                title="Recovered"
-                                number={globalStats?.recovered || "N/A"}
-                                bg="green"
-                            />
-                            <InfoCard
-                                title="Active"
-                                number={globalStats?.active || "N/A"}
-                                bg="blue"
-                            />
-                            <InfoCard
-                                title="Deaths"
-                                number={globalStats?.deaths || "N/A"}
-                                bg="red"
-                            />
+                    </section>
+                    <section className="app__countriesreport">
+                        <h2 className="app__title">Countries Report</h2>
+                        <div className="app__tableprops">
+                            <div className="app__searchbar">
+                                <label
+                                    htmlFor="searchCountry"
+                                    style={{ height: "24px" }}
+                                >
+                                    <SearchIcon />
+                                </label>
+                                <input
+                                    id="searchCountry"
+                                    type="text"
+                                    placeholder="Search..."
+                                    value={countrySearch}
+                                    onChange={(e) => {
+                                        setCountrySearch(e.target.value);
+                                        // setTableData(
+                                        //     searchInArayOfObjects(
+                                        //         e.target.value,
+                                        //         tableData,
+                                        //         "country"
+                                        //     )
+                                        // );
+                                    }}
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="sortBy">Sort by: </label>
+                                <select
+                                    name="sortBy"
+                                    id="sortBy"
+                                    className="app__dropdown"
+                                    value={sortBy}
+                                    onChange={(e) => setSortBy(e.target.value)}
+                                >
+                                    <option value="country">Country</option>
+                                    <option value="active">Active</option>
+                                    <option value="recovered">Recovered</option>
+                                    <option value="deaths">Deaths</option>
+                                    <option value="total">Total</option>
+                                </select>
+                            </div>
+                            <div className="app__table__orderby">
+                                <p>Order by:</p>
+                                <button
+                                    type="button"
+                                    className={`app__button  ${
+                                        orderBy === "desc"
+                                            ? "app__button--active"
+                                            : ""
+                                    }`}
+                                    title="High to Low"
+                                    onClick={() => {
+                                        setOrderBy("desc");
+                                        setTableData((currentData) =>
+                                            currentData.sort((a, b) =>
+                                                descending(a[sortBy], b[sortBy])
+                                            )
+                                        );
+                                    }}
+                                >
+                                    <Descending />
+                                </button>
+                                <button
+                                    type="button"
+                                    className={`app__button  ${
+                                        orderBy === "asc"
+                                            ? "app__button--active"
+                                            : ""
+                                    }`}
+                                    title="Low to High"
+                                    onClick={() => {
+                                        setOrderBy("asc");
+                                        setTableData((currentData) =>
+                                            currentData.sort((a, b) =>
+                                                ascending(a[sortBy], b[sortBy])
+                                            )
+                                        );
+                                    }}
+                                >
+                                    <Ascending />
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <StackedBar data={barData} sorted={false} />
-                </section>
-                <section className="app__statistics">
-                    <h2 className="app__title">Stats Graph</h2>
-                    <div className="app__checkboxes">
-                        <Checkbox
-                            name="total"
-                            checked={graphVisiblity.total}
-                            onChange={onCheckboxToggle}
-                        >
-                            Total cases
-                        </Checkbox>
-                        <Checkbox
-                            name="active"
-                            checked={graphVisiblity.active}
-                            onChange={onCheckboxToggle}
-                        >
-                            Active cases
-                        </Checkbox>
-                        <Checkbox
-                            name="recovered"
-                            checked={graphVisiblity.recovered}
-                            onChange={onCheckboxToggle}
-                        >
-                            Recovered cases
-                        </Checkbox>
-                        <Checkbox
-                            name="deaths"
-                            checked={graphVisiblity.deaths}
-                            onChange={onCheckboxToggle}
-                        >
-                            Death cases
-                        </Checkbox>
-                    </div>
-                    {/* For last 30 days global data https://corona.lmao.ninja/v2/historical/all*/}
-                    {/* For today's global data https://corona.lmao.ninja/v2/all */}
-                    <Graph
-                        data={graphData}
-                        fields={[
-                            [graphVisiblity.total ? "total" : "", "#888"],
-                            [graphVisiblity.active ? "active" : "", "#597bff"],
-                            [
-                                graphVisiblity.recovered ? "recovered" : "",
-                                "#00bd77",
-                            ],
-                            [graphVisiblity.deaths ? "deaths" : "", "#ed2121"],
-                        ]}
-                    />
-                </section>
-                <section className="app__countriesreport">
-                    <h2 className="app__title">Countries Report</h2>
-                    <div className="app__tableprops">
-                        <div className="app__searchbar">
-                            <SearchIcon />
-                            <input
-                                type="text"
-                                placeholder="Search..."
-                                value={countrySearch}
-                                onChange={(e) => {
-                                    setCountrySearch(e.target.value);
-                                    // setTableData(
-                                    //     searchInArayOfObjects(
-                                    //         e.target.value,
-                                    //         tableData,
-                                    //         "country"
-                                    //     )
-                                    // );
-                                }}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="sortBy">Sort by: </label>
-                            <select
-                                name="sortBy"
-                                id="sortBy"
-                                className="app__dropdown"
-                                value={sortBy}
-                                onChange={(e) => setSortBy(e.target.value)}
-                            >
-                                <option value="country">Country</option>
-                                <option value="active">Active</option>
-                                <option value="recovered">Recovered</option>
-                                <option value="deaths">Deaths</option>
-                                <option value="total">Total</option>
-                            </select>
-                        </div>
-                        <div className="app__table__orderby">
-                            <p>Order by:</p>
-                            <button
-                                type="button"
-                                className={
-                                    orderBy === "desc"
-                                        ? "app__button--active"
-                                        : ""
-                                }
-                                title="High to Low"
-                                onClick={() => setOrderBy("desc")}
-                            >
-                                <Descending />
-                            </button>
-                            <button
-                                type="button"
-                                className={
-                                    orderBy === "asc"
-                                        ? "app__button--active"
-                                        : ""
-                                }
-                                title="Low to High"
-                                onClick={() => setOrderBy("asc")}
-                            >
-                                <Ascending />
-                            </button>
-                        </div>
-                    </div>
-                    {/* For all countries total stats https://corona.lmao.ninja/v2/countries */}
-                    <Table
-                        data={tableData
-                            .filter(
+                        {/* For all countries total stats https://corona.lmao.ninja/v2/countries */}
+                        <Table
+                            data={tableData.filter(
                                 (obj) =>
                                     obj["country"].search(
                                         new RegExp(countrySearch, "i")
                                     ) >= 0
-                            )
-                            .sort((a, b) =>
-                                orderBy === "asc"
-                                    ? ascending(a[sortBy], b[sortBy])
-                                    : descending(a[sortBy], b[sortBy])
                             )}
-                        columns={columns}
-                    />
-                </section>
+                            columns={columns}
+                        />
+                    </section>
+                </div>
+
+                <img
+                    src={require("./assets/images/character-left.png")}
+                    alt="character sitting with mask"
+                    className="app__character app__character--left"
+                />
             </div>
         </div>
     );
