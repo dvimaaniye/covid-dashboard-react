@@ -1,6 +1,6 @@
 # Covid-19 Dashboard Using React
 
-### Check covid data: https://covid-dashboard-gautam.netlify.app/
+### Check covid data: https://simple-covid-dashboard.netlify.app/
 
 The assignment/project/website does the following things:
 
