@@ -8,7 +8,7 @@ The assignment/project/website does the following things:
 2. Plots a graph for worldwide data
 3. Displays a table for countries report.
 
-### API used: https://covid-19-apis.postman.com/
+### API used: https://corona.lmao.ninja/v2/all
 
 ### Libraries used: Recharts (for plotting line graph)
 
